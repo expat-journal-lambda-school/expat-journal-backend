@@ -1,19 +1,19 @@
 const db = require('../data/dbConfig.js');
-const Users = db('users')
+const Posts = db('posts')
 
-const findAll = () => Users 
+const findAll = () => Posts
 
 const findBy = filter => (
-  Users.where(filter)
+  Posts.where(filter)
 )
 
 const add = async user => (
-  await Users.insert(user, 'id')
+  await Posts.insert(user, 'id')
     .then(ids => findBy({id: ids[0]}).first())
 )
 
 module.exports = {
-  findAll, 
-  findBy, 
+  findAll,
+  findBy,
   add
-};
+}
