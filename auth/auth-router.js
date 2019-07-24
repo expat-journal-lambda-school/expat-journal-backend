@@ -26,7 +26,7 @@ router.post('/register', (req, res) => {
   Users.add(user)
     .then(newUser => {
       const token = generateToken(newUser);
-      res.status(201).json({token})
+      res.status(201).json({...newUser, token})
     })
     .catch(error => res.status(500).json(error));
 });
@@ -34,20 +34,15 @@ router.post('/register', (req, res) => {
 router.get('/login', (req, res) => {
   const {username, password} = req.body;
 
-  Users.findBy({username}).first()
+  Users.findOneBy({username})
     .then(user => {
-      if(user){
         if(bcrypt.compareSync(password, user.password)){
           const token = generateToken(user);
-          res.status(200).json({token})
+          res.status(200).json({...user, token})
         }
         else{
           res.status(401).json({errorMessage: 'Incorrect Password'})
         }
-      }
-      else{
-        res.status(401).json({errorMessage: 'Incomplete Credentials'})
-      }
     })
     .catch(error => res.status(404).json({errorMessage: 'User Not Found'}));
 });

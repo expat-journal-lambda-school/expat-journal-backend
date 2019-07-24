@@ -11,10 +11,10 @@ router.get('/', restricted, (req, res) => {
 });
 
 router.get('/:id', restricted, async (req, res) => {
-  Users.findBy({id: req.params.id}).first()
+  Users.findOneBy({id: req.params.id})
     .then(user => {
       Posts.findBy({user_id: user.id})
-        .then(posts => res.status(201).json({id: user.id, username: user.username,posts: posts}))
+        .then(posts => res.status(201).json({id: user.id, username: user.username, posts: posts}))
         .catch(error => res.status(500).json({...error, message: "Error finding posts"}))
     })
     .catch(error => res.status(500).json({...error, message: "error finding user"}))
