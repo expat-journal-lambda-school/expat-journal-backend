@@ -7,6 +7,7 @@ exports.up = knex => (
         .unique();
       users.string('password')
         .notNullable();
+      users.timestamps(true, true);
     })
 );
 
