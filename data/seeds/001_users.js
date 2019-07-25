@@ -11,7 +11,6 @@ exports.seed = knex => (
       for(let i = 0; i < numOfUsers; i++){
         const password = faker.internet.password();
         const user = {
-          id: i+1,
           username: faker.internet.userName(),
           password: bcrypt.hashSync(password, 10) 
         }

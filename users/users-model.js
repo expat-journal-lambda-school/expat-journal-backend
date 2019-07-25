@@ -11,7 +11,7 @@ const findBy = async filter => (
 )
 
 const add = async user => (
-  await Users.insert(user, 'id')
+  await Users.insert(user, ['id'])
 )
 
 module.exports = {
