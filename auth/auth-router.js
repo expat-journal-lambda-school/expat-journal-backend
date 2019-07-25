@@ -32,20 +32,20 @@ router.post('/register', (req, res) => {
     .catch(error => res.status(500).json(error));
 });
 
-router.post('/login', (req, res) => {
-  const {username, password} = req.body;
-
-  Users.findBy({username})
-    .then(user => {
-        if(bcrypt.compareSync(password, user.password)){
-          const token = generateToken(user);
-          res.status(200).json({...user, token})
-        }
-        else{
-          res.status(401).json({errorMessage: 'Incorrect Password'})
-        }
-    })
-    .catch(error => res.status(404).json({errorMessage: 'User Not Found'}));
+router.get('/login', async (req, res) => {
+  const user = await Users.findOneBy({username: req.body.username})
+  try{  
+    if(bcrypt.compareSync(req.body.password, user.password)){
+      const token = generateToken(user);
+      res.status(200).json({...user, token})
+    }
+    else{
+      res.status(401).json({errorMessage: 'Incorrect Password'})
+    }
+  }
+  catch(error){
+    res.status(500).json(error)
+  }
 });
 
 module.exports = router;
