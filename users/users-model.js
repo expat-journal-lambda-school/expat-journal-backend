@@ -6,8 +6,8 @@ const findAll = async () => await Users
 const findOneBy = async filter => (
   await Users.where(filter).first()
 )
-const findBy = async filter => (
-  await Users.where(filter)
+const findBy = filter => (
+  Users.where(filter)
 )
 
 const add = async user => (
