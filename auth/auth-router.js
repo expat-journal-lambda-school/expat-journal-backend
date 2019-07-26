@@ -32,20 +32,19 @@ router.post('/register', (req, res) => {
     .catch(error => res.status(500).json(error));
 });
 
-router.get('/login', async (req, res) => {
-  const user = await Users.findOneBy({username: req.body.username})
-  try{  
-    if(bcrypt.compareSync(req.body.password, user.password)){
-      const token = generateToken(user);
-      res.status(200).json({...user, token})
-    }
-    else{
-      res.status(401).json({errorMessage: 'Incorrect Password'})
-    }
-  }
-  catch(error){
-    res.status(500).json(error)
-  }
+router.get('/login',(req, res) => {
+    Users.findOneBy({username: req.body.username})
+      .then(user => {
+        console.log(user)
+        if(bcrypt.compareSync(req.body.password, user.password)){
+          const token = generateToken(user);
+          res.status(200).json({...user, token})
+        }
+        else{
+          res.status(401).json({errorMessage: 'Incorrect Password'})
+        }
+      })
+      .catch(error => res.status(500).json(error))
 });
 
 module.exports = router;
