@@ -32,7 +32,7 @@ router.post('/register', (req, res) => {
     .catch(error => res.status(500).json(error));
 });
 
-router.get('/login',(req, res) => {
+router.post('/login',(req, res) => {
     Users.findOneBy({username: req.body.username})
       .then(user => {
         console.log(user)
