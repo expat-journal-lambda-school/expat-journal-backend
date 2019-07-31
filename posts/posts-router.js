@@ -6,7 +6,14 @@ const restricted = require('../auth/restricted-middleware.js');
 
 router.post('/', restricted, (req, res) => {
   Posts.add(req.body)
-    .then(post => res.status(201).json(post))
+    .then(newPostId => {
+      Posts.findOneBy({id: newPostId})
+        .then(newPost => {
+          res.status(201).json(post)
+        })
+        .catch(error1 => {
+          res.status(500.json({...error1, errorMessage: 'can not find new post'}))
+        })
     .catch(error => res.status(500).json({...error, errorMessage: 'Not able to create new post'}))
 })
 //401... may have fixe?
