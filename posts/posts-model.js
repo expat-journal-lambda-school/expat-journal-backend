@@ -7,10 +7,13 @@ const findBy = async filter => (
   await Posts.where(filter)
 )
 
-const add = post => (
-  Posts.insert(post, 'id')
-    .then(ids => findBy({id: ids[0]}).first())
-)
+const add = async post => {
+  const [id] = await Posts.insert(post, 'id')
+  
+  const newPost = await findBy({id: id}).first()
+
+  return newPost
+}
 
 const update = (id, post) => (
   Posts.where({id}).first().update(post, 'id')
