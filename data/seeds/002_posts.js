@@ -18,7 +18,7 @@ exports.seed = knex => (
             post.city = faker.address.city();
             post.country = faker.address.country();
             post.description = faker.lorem.paragraph();
-            post.imageURL = `https://picsum.photos/id/${Math.floor(Math.random() * 2000 + 1)}/300/300`;
+            post.imageURL = `https://picsum.photos/id/${Math.floor(Math.random() * 1001)+1000}/300/300`;
 
             posts.push(post)
           }
