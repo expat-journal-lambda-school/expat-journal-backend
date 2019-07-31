@@ -5,15 +5,10 @@ const Posts = require('./posts-model.js');
 const restricted = require('../auth/restricted-middleware.js');
 
 router.post('/', restricted, (req, res) => {
+  console.log(req.body)
   Posts.add(req.body)
-    .then(newPostId => {
-      Posts.findOneBy({id: newPostId})
-        .then(newPost => {
-          res.status(201).json(post)
-        })
-        .catch(error1 => {
-          res.status(500).json({...error1, errorMessage: 'can not find new post'})
-        })
+    .then(newPost => {
+      res.status(201).json(newPost)
     })
     .catch(error => res.status(500).json({...error, errorMessage: 'Not able to create new post'}))
 })

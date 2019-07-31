@@ -1,28 +1,29 @@
 const db = require('../data/dbConfig.js');
-const Posts = db('posts')
 
-const findAll = async () => await Posts
+const findAll = () => db('posts')
 
 const findBy = async filter => (
-  await Posts.where(filter)
+  await db('posts').where(filter)
 )
 
-const add = async post => (
-  await Posts.insert(post, 'id')
+const add = async post => {
+  const [id] = await db('posts').insert(post, 'id') 
+  return await db('posts').where({id}).first()
+}
+
+const update = async (id, post) => {
+  await db('posts').where({id}).first().update(post)
+
+  return db('posts').where({id}).first()
+}
+
+const remove = id => {
+  const deleted = db('posts').where({id}).first()
   
-  //const newPost = await findBy({id: id}).first()
-
-  //return newPost
-)
-
-const update = (id, post) => (
-  Posts.where({id}).first().update(post, 'id')
-    .then(ids => findBy({id: ids[0]}))
-)
-
-const remove = id => (
-  Posts.where({id}).del()
-)
+  db('posts').where({id}).del()
+  
+  return deleted
+}
 
 module.exports = {
   findAll,
