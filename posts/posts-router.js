@@ -12,8 +12,9 @@ router.post('/', restricted, (req, res) => {
           res.status(201).json(post)
         })
         .catch(error1 => {
-          res.status(500.json({...error1, errorMessage: 'can not find new post'}))
+          res.status(500).json({...error1, errorMessage: 'can not find new post'})
         })
+    })
     .catch(error => res.status(500).json({...error, errorMessage: 'Not able to create new post'}))
 })
 //401... may have fixe?
