@@ -1,27 +1,25 @@
 const db = require('../data/dbConfig.js');
+const Posts = db('posts')
 
-const findAll = () => db('posts')
+const findAll = () => Posts
 
-const findBy = async filter => (
-  await db('posts').where(filter)
-)
+const findBy = async filter => await Posts.where(filter)
+
+const findOneBy = async filter => await Posts.where(filter).first()
 
 const add = async post => {
-  const [id] = await db('posts').insert(post, 'id') 
+  const [id] = await Posts.insert(post, 'id')
   return await db('posts').where({id}).first()
 }
 
 const update = async (id, post) => {
-  await db('posts').where({id}).first().update(post)
-
-  return db('posts').where({id}).first()
+  await findOneBy({id}).update(post)
+  return findOneBy({id}) 
 }
 
 const remove = id => {
-  const deleted = db('posts').where({id}).first()
-  
-  db('posts').where({id}).del()
-  
+  const deleted = findOneBy({id})
+  findOneBy({id}).del()
   return deleted
 }
 

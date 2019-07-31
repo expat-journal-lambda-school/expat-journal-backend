@@ -11,7 +11,6 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', restricted, (req, res) => {
-  console.log(req.body)
   Posts.add(req.body)
     .then(newPost => res.status(201).json(newPost))
     .catch(error => res.status(500).json(error))
