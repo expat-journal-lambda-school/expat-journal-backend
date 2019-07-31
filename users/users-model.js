@@ -3,7 +3,7 @@ const Users = db('users');
 
 const findAll = () => Users.select('id', 'username');
 
-const findOneBy = async filter => await db('users').where(filter).first();
+const findOneBy = async filter => await Users.where(filter).first();
 
 const findBy = filter => Users.where(filter);
 
