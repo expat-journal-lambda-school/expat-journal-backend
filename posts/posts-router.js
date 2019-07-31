@@ -4,22 +4,19 @@ const Users = require('../users/users-model.js');
 const Posts = require('./posts-model.js');
 const restricted = require('../auth/restricted-middleware.js');
 
-router.post('/', restricted, (req, res) => {
-  console.log(req.body)
-  Posts.add(req.body)
-    .then(newPost => {
-      res.status(201).json(newPost)
-    })
-    .catch(error => res.status(500).json({...error, errorMessage: 'Not able to create new post'}))
-})
-//401... may have fixe?
-//finally got 500 and getting all posts returned weird error
 router.get('/', (req, res) => {
   Posts.findAll()
     .then(posts => res.status(200).json(posts))
     .catch(error => res.status(500).json(error))
 })
-//error after trying to post and failing, got post data in error
+
+router.post('/', restricted, (req, res) => {
+  console.log(req.body)
+  Posts.add(req.body)
+    .then(newPost => res.status(201).json(newPost))
+    .catch(error => res.status(500).json(error))
+})
+
 router.get('/:id', (req, res) => {
   Posts.findBy({id: req.params.id}).first()
     .then(post => res.status(200).json(post))
@@ -52,7 +49,7 @@ router.delete('/:id', restricted, (req, res) => {
           .catch(error => res.status(500).json(error))
       }
       else{
-        throw new Error('this is not your post to edit')
+        throw new Error('this is not your post to delete')
       }
     })
     .catch(error => {
