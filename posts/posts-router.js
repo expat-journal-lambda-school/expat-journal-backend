@@ -42,18 +42,20 @@ router.put('/:id', restricted, (req, res) => {
 router.delete('/:id', restricted, (req, res) => {
   Posts.findOneBy({id: req.params.id})
     .then(post => {
+      console.log(post)
+      console.log('from token', req.decodedToken.subject)
+      console.log('from promise', post.user_id)
       if(req.decodedToken.subject === post.user_id){
+        console.log(post.id)
         Posts.remove(post.id)
           .then(numOfDeleted => res.status(410).json({deleted: post}))
-          .catch(error => res.status(500).json(error))
+          .catch(error => res.status(500).json({error_message: "error on remove"}))
       }
       else{
-        throw new Error('this is not your post to delete')
+        res.status(500).json({error_message: 'this is not your post to delete'})
       }
     })
-    .catch(error => {
-        res.status(403).json(error)
-    })
+    .catch(error => res.status(500).json({error_message: "error on find one by"}))
 })
 
 module.exports = router;
