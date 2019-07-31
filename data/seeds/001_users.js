@@ -14,7 +14,7 @@ exports.seed = knex => (
           username: faker.internet.userName(),
           password: bcrypt.hashSync(password, 10) 
         }
-        console.log(`id: ${user.id}\nusername: ${user.username}\npassword: ${password}\n`)
+        console.log(`username: ${user.username}\npassword: ${password}\n`)
         users.push(user)
       }
 
