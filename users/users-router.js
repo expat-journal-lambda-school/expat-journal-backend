@@ -17,7 +17,7 @@ router.get('/:id', restricted, async (req, res) => {
         .then(posts => res.status(201).json({id: user.id, username: user.username, posts: posts}))
         .catch(error => res.status(500).json({...error, message: "Error finding posts"}))
     })
-    .catch(error => res.status(500).json({...error, message: "error finding user"}))
+    .catch(error => res.status(500).json({...error, message: "Error finding user"}))
 })
 
 module.exports = router;
