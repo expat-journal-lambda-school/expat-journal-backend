@@ -11,13 +11,14 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', restricted, (req, res) => {
-  Posts.add(req.body)
-    .then(newPost => res.status(201).json(newPost))
+  const newPost = {...req.body, user_id: req.decodedToken.subject}
+  Posts.add(newPost)
+    .then(posted => res.status(201).json(posted))
     .catch(error => res.status(500).json(error))
 })
 
 router.get('/:id', (req, res) => {
-  Posts.findBy({id: req.params.id}).first()
+  Posts.findOneBy({id: req.params.id})
     .then(post => res.status(200).json(post))
     .catch(error => res.status(500).json(error))
 })
@@ -40,11 +41,7 @@ router.put('/:id', restricted, (req, res) => {
 router.delete('/:id', restricted, (req, res) => {
   Posts.findOneBy({id: req.params.id})
     .then(post => {
-      console.log(post)
-      console.log('from token', req.decodedToken.subject)
-      console.log('from promise', post.user_id)
       if(req.decodedToken.subject === post.user_id){
-        console.log(post.id)
         Posts.remove(post.id)
           .then(numOfDeleted => res.status(210).json({deleted: post}))
           .catch(error => res.status(500).json({error_message: "error on remove"}))
