@@ -13,7 +13,7 @@ const add = async post => {
   return await db('posts').where({id}).first()
 }
 
-const update = async (id, post) => {
+const edit = async (id, post) => {
   console.log('id', id)
   console.log('post', post)
   await findOneBy({id}).update(post)
@@ -26,6 +26,6 @@ module.exports = {
   findBy,
   findOneBy,
   add,
-  update,
+  edit,
   remove
 }

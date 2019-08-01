@@ -26,7 +26,7 @@ router.put('/:id', restricted, (req, res) => {
   Posts.findOneBy({id: req.params.id})
     .then(post => {
       if(req.decodedToken.subject === post.user_id){
-        Posts.update(post.id, req.body)
+        Posts.edit(req.params.id, req.body)
           .then(updatedPost => res.status(200).json(updatedPost))
           .catch(error => res.status(500).json({error_message:'error on updating'}))
       }
