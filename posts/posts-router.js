@@ -48,7 +48,7 @@ router.delete('/:id', restricted, (req, res) => {
       if(req.decodedToken.subject === post.user_id){
         console.log(post.id)
         Posts.remove(post.id)
-          .then(numOfDeleted => res.status(410).json({deleted: post}))
+          .then(numOfDeleted => res.status(210).json({deleted: post}))
           .catch(error => res.status(500).json({error_message: "error on remove"}))
       }
       else{
