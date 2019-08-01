@@ -13,8 +13,10 @@ const add = async post => {
   return await db('posts').where({id}).first()
 }
 
-const update = async (post_id, post) => {
-  const [id] = await findBy({id: post_id}).update(post, 'id')
+const update = async (id, post) => {
+  console.log('id', id)
+  console.log('post', post)
+  await findOneBy({id}).update(post)
   return findOneBy({id}) 
 }
 
