@@ -93,3 +93,4 @@ typings/
 # Databases
 *.db
 *.db3
+database.db3
