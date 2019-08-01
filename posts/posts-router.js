@@ -23,7 +23,7 @@ router.get('/:id', (req, res) => {
 })
 
 router.put('/:id', restricted, (req, res) => {
-  Posts.findBy({id: req.params.id}).first()
+  Posts.findOneBy({id: req.params.id})
     .then(post => {
       if(req.decodedToken.subject === post.user_id){
         Posts.update(post.id, req.body)
