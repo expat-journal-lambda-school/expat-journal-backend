@@ -36,17 +36,15 @@ router.put('/:id', restricted, (req, res) => {
   }
 })
 
-  /*
 router.delete('/:id', restricted, (req, res) => {
-  if(req.decodedToken.subject === req.params.id){
-    const updates = {username: req.body.username, password: req.body.password};
-    Users.remove(req.params.id, updates)
-      .then(deletedUser => res.status(200).json(updatedUser))
+  if(req.decodedToken.subject === Number(req.params.id)){
+    Users.remove(req.params.id)
+      .then(numDeleted => res.status(200).json({message: `User ${req.params.id} deleted`}))
       .catch(error => res.status(500).json(error))
     }
   else{
    res.status(500).json({errorMessage: 'This is not you'})
   }
 })
-*/
+
 module.exports = router;
