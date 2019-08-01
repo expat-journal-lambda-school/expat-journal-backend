@@ -16,8 +16,7 @@ const add = async post => {
 const edit = async (id, post) => {
   console.log('id', id)
   console.log('post', post)
-  await findOneBy({id}).update(post)
-  return findOneBy({id}) 
+  return await findOneBy({id}).update({post})
 }
 
 
