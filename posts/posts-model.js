@@ -1,6 +1,6 @@
 const db = require('../data/dbConfig.js');
 
-const findAll = () => db('posts') 
+const findAll = async () => await db('posts') 
 
 const findBy = async filter => await db('posts').where(filter)
 
