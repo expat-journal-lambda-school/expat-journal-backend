@@ -28,15 +28,13 @@ router.put('/:id', restricted, (req, res) => {
       if(req.decodedToken.subject === post.user_id){
         Posts.update(post.id, req.body)
           .then(updatedPost => res.status(200).json(updatedPost))
-          .catch(error => res.status(500).json(error))
+          .catch(error => res.status(500).json({error_message:'error on updating'}))
       }
       else{
-        throw new Error('this is not your post to edit')
+        res.status(403).json({error_message: 'this is not your post to update'})
       }
     })
-    .catch(error => {
-        res.status(403).json(error)
-    })
+    .catch(error => res.status(500).json({error_message: "error on find one by"}))
 })
 
 router.delete('/:id', restricted, (req, res) => {
@@ -52,7 +50,7 @@ router.delete('/:id', restricted, (req, res) => {
           .catch(error => res.status(500).json({error_message: "error on remove"}))
       }
       else{
-        res.status(500).json({error_message: 'this is not your post to delete'})
+        res.status(403).json({error_message: 'this is not your post to delete'})
       }
     })
     .catch(error => res.status(500).json({error_message: "error on find one by"}))
