@@ -10,7 +10,7 @@ const remove = async id => await db('posts').where({id}).del()
 
 const add = async post => {
   const [id] = await db('posts').insert(post, 'id')
-  return await db('posts').where({id}).first()
+  return await findOneBy({id})
 }
 
 const edit = async (id, post) => {
