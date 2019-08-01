@@ -5,6 +5,8 @@ exports.up = knex => (
       table.integer('user_id')
         .references('id')
         .inTable('users')
+        .onUpdate('CASCADE')
+        .onDelete('CASCADE')
         .notNullable();
       table.string('title', 256)
         .notNullable();
